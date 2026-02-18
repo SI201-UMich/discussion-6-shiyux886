@@ -40,15 +40,13 @@ class HorseRaces:
 ###############################################################################
     def load_results(self, table):
         def load_results(self, table):
-        # header row: ["Horse", "Tenno Sho Fall", "Tenno Sho Spring", "Teio Sho"]
             header = table[0]
             races = header[1:]
 
             race_dict = {}
 
-        # remaining rows: ["Special Week", "16.5", "16.3", "17.0"]
             for row in table[1:]:
-                if not row or len(row) < 2:   # safety for any blank/malformed row
+                if not row or len(row) < 2:
                     continue
 
                 horse = row[0]
@@ -70,7 +68,7 @@ class HorseRaces:
         if horse not in self.race_dict:
             return (None, 999.9)
 
-        inner = self.race_dict[horse]  # dict of race -> time
+        inner = self.race_dict[horse]
         fastest_race, fastest_time = min(inner.items(), key=lambda kv: kv[1])
         return (fastest_race, fastest_time)
 
@@ -89,14 +87,12 @@ class HorseRaces:
 ###############################################################################
 
     def get_average_time(self):
-        '''
-        Calculate the average race time for each horse.
-
-        Returns:
-            A dictionary with each horse and their average time.
-            EXAMPLE: {'Gold Ship': 16.5, 'Daiwa Scarlet': 17.2}
-        '''
-        pass
+        avg_dict = {}
+        for horse, races in self.race_dict.items():
+            times = list(races.values())
+            avg = sum(times) / len(times)
+            avg_dict[horse] = round(avg, 1)
+        return avg_dict
 
 ###############################################################################
 ##### DO NOT MODIFY THE UNIT TESTS BELOW!
